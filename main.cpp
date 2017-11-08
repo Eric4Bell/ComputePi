@@ -9,6 +9,7 @@
 #include <iostream>
 #include <thread>
 #include <vector>
+#include <chrono>
 #include "taskQueue.hpp"
 #include "digitHash.hpp"
 #include "computePiDigit.hpp"
@@ -39,6 +40,8 @@ int main(int argc, const char * argv[]) {
         myTaskQueue.push(i);
     }
     
+    auto start = std::chrono::system_clock::now();
+    
     //multithread
     std::vector<std::thread> threadPool;
     for (int i = 0; i < NUMBER_OF_THREADS; i++){
@@ -53,7 +56,12 @@ int main(int argc, const char * argv[]) {
         std::cout << myDigitHash.find(i);
     }
     
-    std::cout << std::endl << std::endl;
+    auto end = std::chrono::system_clock::now();
+    std::chrono::duration<double> processTime = end - start;
+    
+    std::cout << std::endl << std::endl << std::endl;
+    
+    std::cout << "Time Spent: " << processTime.count() << std::endl << std::endl;
     
     return 0;
 }
